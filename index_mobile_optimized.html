@@ -1,0 +1,1504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyPrep AI | NFT-Powered Exam Tutor</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.6.0/dist/web3.min.js"></script>
+    
+    <style>
+        :root {
+            /* Modern Color Palette */
+            --primary-blue: #2563eb;
+            --primary-purple: #7c3aed;
+            --accent-green: #059669;
+            --accent-orange: #ea580c;
+            
+            /* Neutral Colors */
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            
+            /* Gradients */
+            --gradient: linear-gradient(135deg, var(--primary-blue), var(--primary-purple));
+            --gradient-2: linear-gradient(135deg, var(--accent-green), var(--primary-blue));
+            --gradient-3: linear-gradient(135deg, var(--primary-purple), var(--accent-orange));
+            
+            /* Shadows */
+            --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            
+            /* Typography */
+            --text-xs: 0.75rem;
+            --text-sm: 0.875rem;
+            --text-base: 1rem;
+            --text-lg: 1.125rem;
+            --text-xl: 1.25rem;
+            --text-2xl: 1.5rem;
+            --text-3xl: 1.875rem;
+            --text-4xl: 2.25rem;
+            --text-5xl: 3rem;
+            
+            /* Spacing */
+            --space-1: 0.25rem;
+            --space-2: 0.5rem;
+            --space-3: 0.75rem;
+            --space-4: 1rem;
+            --space-6: 1.5rem;
+            --space-8: 2rem;
+            --space-12: 3rem;
+            --space-16: 4rem;
+            --space-20: 5rem;
+            --space-24: 6rem;
+            
+            /* Border Radius */
+            --rounded-sm: 0.125rem;
+            --rounded: 0.25rem;
+            --rounded-md: 0.375rem;
+            --rounded-lg: 0.5rem;
+            --rounded-xl: 0.75rem;
+            --rounded-2xl: 1rem;
+            --rounded-full: 9999px;
+            
+            /* Layout */
+            --max-width: 1280px;
+            --header-height: 4rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            font-size: var(--text-base);
+            line-height: 1.6;
+            color: var(--gray-700);
+            background-color: var(--gray-50);
+            letter-spacing: -0.01em;
+            font-feature-settings: 'liga', 'kern';
+        }
+
+        .container {
+            width: 100%;
+            max-width: var(--max-width);
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: var(--space-4);
+            padding-right: var(--space-4);
+        }
+
+        /* Typography */
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 700;
+            line-height: 1.2;
+            color: var(--gray-900);
+            letter-spacing: -0.02em;
+        }
+
+        h1 { font-size: var(--text-4xl); }
+        h2 { font-size: var(--text-3xl); }
+        h3 { font-size: var(--text-xl); }
+        h4 { font-size: var(--text-lg); }
+
+        p {
+            color: var(--gray-600);
+            margin-bottom: var(--space-4);
+        }
+
+        /* Header - Mobile Optimized */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--gray-200);
+            height: var(--header-height);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 100%;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            font-weight: 800;
+            font-size: var(--text-lg);
+            color: var(--gray-900);
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 1.75rem;
+            height: 1.75rem;
+            background: var(--gradient);
+            border-radius: var(--rounded-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: var(--text-base);
+        }
+
+        /* Mobile Navigation */
+        .nav-links {
+            display: none;
+        }
+
+        .mobile-menu-toggle {
+            display: block;
+            background: none;
+            border: none;
+            font-size: var(--text-xl);
+            color: var(--gray-600);
+            cursor: pointer;
+            padding: var(--space-2);
+        }
+
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            top: var(--header-height);
+            left: 0;
+            right: 0;
+            background: white;
+            border-bottom: 1px solid var(--gray-200);
+            box-shadow: var(--shadow-lg);
+            z-index: 40;
+        }
+
+        .mobile-nav.active {
+            display: block;
+        }
+
+        .mobile-nav a {
+            display: block;
+            padding: var(--space-4);
+            color: var(--gray-700);
+            text-decoration: none;
+            border-bottom: 1px solid var(--gray-100);
+            font-weight: 500;
+        }
+
+        .mobile-nav a:hover {
+            background: var(--gray-50);
+            color: var(--primary-blue);
+        }
+
+        .wallet-btn {
+            background: var(--gradient);
+            color: white;
+            border: none;
+            padding: var(--space-2) var(--space-3);
+            border-radius: var(--rounded-lg);
+            font-weight: 600;
+            font-size: var(--text-sm);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: var(--space-1);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .wallet-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Hero Section - Mobile Optimized */
+        .hero {
+            background: linear-gradient(135deg, var(--gray-900), var(--gray-800));
+            color: white;
+            padding: var(--space-16) 0;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><g fill="%239C92AC" fill-opacity="0.05"><circle cx="30" cy="30" r="4"/></g></svg>');
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: var(--text-4xl);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: var(--space-6);
+            background: linear-gradient(135deg, #ffffff 0%, #f3f4f6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: var(--text-lg);
+            color: var(--gray-300);
+            margin-bottom: var(--space-8);
+            line-height: 1.6;
+            max-width: 100%;
+        }
+
+        .hero-btns {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-4);
+            margin-bottom: var(--space-8);
+            align-items: center;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-2);
+            padding: var(--space-4) var(--space-6);
+            font-size: var(--text-base);
+            font-weight: 600;
+            border-radius: var(--rounded-lg);
+            text-decoration: none;
+            transition: all 0.2s ease-in-out;
+            cursor: pointer;
+            border: none;
+            outline: none;
+            width: 100%;
+            max-width: 280px;
+        }
+
+        .btn-primary {
+            background: var(--gradient);
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--gray-700);
+            border: 2px solid var(--gray-200);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary-blue);
+            color: var(--primary-blue);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .brain-icon {
+            width: 12rem;
+            height: 12rem;
+            background: var(--gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: var(--space-8) auto;
+            box-shadow: var(--shadow-xl);
+            animation: pulse-slow 3s ease-in-out infinite;
+        }
+
+        .brain-icon i {
+            font-size: 3rem;
+            color: white;
+        }
+
+        .compliance-badge {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: var(--rounded-full);
+            padding: var(--space-3) var(--space-4);
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            font-size: var(--text-sm);
+            color: var(--gray-200);
+            max-width: 100%;
+            text-align: center;
+        }
+
+        /* Sections */
+        .section {
+            padding: var(--space-16) 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: var(--space-12);
+        }
+
+        .section-title h2 {
+            margin-bottom: var(--space-4);
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-title p {
+            font-size: var(--text-lg);
+            max-width: 100%;
+            margin: 0 auto;
+            color: var(--gray-500);
+        }
+
+        /* Features Grid - Mobile Optimized */
+        .features-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--space-6);
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: var(--rounded-2xl);
+            padding: var(--space-6);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--gray-200);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--gray-300);
+        }
+
+        .feature-icon {
+            width: 3rem;
+            height: 3rem;
+            background: var(--gradient);
+            border-radius: var(--rounded-xl);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: var(--space-4);
+            box-shadow: var(--shadow-md);
+        }
+
+        .feature-icon i {
+            font-size: var(--text-xl);
+            color: white;
+        }
+
+        .feature-card h3 {
+            font-size: var(--text-xl);
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: var(--space-4);
+            line-height: 1.3;
+        }
+
+        .feature-card p {
+            color: var(--gray-600);
+            line-height: 1.6;
+            margin-bottom: var(--space-4);
+        }
+
+        /* NFT Portal - Mobile Optimized */
+        .nft-portal {
+            background: white;
+        }
+
+        .nft-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--space-6);
+        }
+
+        .nft-card {
+            background: white;
+            border-radius: var(--rounded-2xl);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--gray-200);
+            transition: all 0.3s ease;
+        }
+
+        .nft-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .nft-header {
+            background: var(--gradient);
+            color: white;
+            padding: var(--space-4);
+            text-align: center;
+            position: relative;
+        }
+
+        .nft-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+        }
+
+        .nft-icon {
+            font-size: 2.5rem;
+            margin-bottom: var(--space-3);
+            opacity: 0.9;
+        }
+
+        .nft-header h3 {
+            font-size: var(--text-xl);
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .nft-body {
+            padding: var(--space-4);
+        }
+
+        .nft-verify {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-2);
+            background: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            border-left: 4px solid var(--accent-green);
+            border-radius: var(--rounded-lg);
+            padding: var(--space-3);
+            margin-bottom: var(--space-4);
+            font-size: var(--text-sm);
+            font-weight: 600;
+            color: var(--accent-green);
+        }
+
+        .nft-features {
+            list-style: none;
+            margin: 0 0 var(--space-4) 0;
+            padding: 0;
+        }
+
+        .nft-features li {
+            padding: var(--space-2) 0;
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            border-bottom: 1px solid var(--gray-100);
+            font-size: var(--text-sm);
+            color: var(--gray-700);
+        }
+
+        .nft-features li:last-child {
+            border-bottom: none;
+        }
+
+        .nft-features i {
+            width: 1rem;
+            height: 1rem;
+            background: var(--gradient-2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: var(--text-xs);
+            flex-shrink: 0;
+        }
+
+        .nft-price {
+            font-size: var(--text-2xl);
+            font-weight: 800;
+            text-align: center;
+            margin: var(--space-4) 0;
+            background: var(--gradient-3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nft-btn {
+            width: 100%;
+            background: var(--gradient);
+            color: white;
+            border: none;
+            padding: var(--space-4);
+            border-radius: var(--rounded-lg);
+            font-weight: 600;
+            font-size: var(--text-base);
+            text-decoration: none;
+            display: block;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .nft-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+            color: white;
+        }
+
+        /* Demo Section - Mobile Optimized */
+        .demo-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--space-8);
+        }
+
+        .demo-interface {
+            background: white;
+            border-radius: var(--rounded-2xl);
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--gray-200);
+            overflow: hidden;
+        }
+
+        .demo-header {
+            background: var(--gradient);
+            color: white;
+            padding: var(--space-3) var(--space-4);
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            font-weight: 600;
+            font-size: var(--text-sm);
+        }
+
+        .demo-messages {
+            height: 20rem;
+            padding: var(--space-4);
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-3);
+            background: var(--gray-50);
+        }
+
+        .message {
+            max-width: 95%;
+            padding: var(--space-3);
+            border-radius: var(--rounded-xl);
+            font-size: var(--text-sm);
+            line-height: 1.5;
+            position: relative;
+        }
+
+        .user-message {
+            background: var(--gradient);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: var(--rounded-md);
+        }
+
+        .ai-message {
+            background: white;
+            color: var(--gray-700);
+            align-self: flex-start;
+            border-bottom-left-radius: var(--rounded-md);
+            border: 1px solid var(--gray-200);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .demo-input {
+            display: flex;
+            padding: var(--space-3);
+            border-top: 1px solid var(--gray-200);
+            background: white;
+        }
+
+        .demo-input input {
+            flex: 1;
+            padding: var(--space-3);
+            border: 1px solid var(--gray-300);
+            border-radius: var(--rounded-lg) 0 0 var(--rounded-lg);
+            font-family: inherit;
+            font-size: var(--text-sm);
+            outline: none;
+        }
+
+        .demo-input button {
+            background: var(--gradient);
+            color: white;
+            border: none;
+            padding: 0 var(--space-4);
+            border-radius: 0 var(--rounded-lg) var(--rounded-lg) 0;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: var(--text-sm);
+        }
+
+        .demo-info h3 {
+            font-size: var(--text-2xl);
+            font-weight: 800;
+            color: var(--gray-900);
+            margin-bottom: var(--space-4);
+            line-height: 1.2;
+        }
+
+        .demo-info p {
+            font-size: var(--text-base);
+            color: var(--gray-600);
+            margin-bottom: var(--space-4);
+            line-height: 1.6;
+        }
+
+        /* Footer - Mobile Optimized */
+        footer {
+            background: var(--gray-900);
+            color: white;
+            padding: var(--space-16) 0 var(--space-6) 0;
+            position: relative;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--space-8);
+            margin-bottom: var(--space-8);
+            text-align: center;
+        }
+
+        .footer-col h3 {
+            font-size: var(--text-xl);
+            font-weight: 700;
+            margin-bottom: var(--space-4);
+            color: white;
+            position: relative;
+        }
+
+        .footer-col h3::after {
+            content: '';
+            position: absolute;
+            bottom: -var(--space-2);
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2rem;
+            height: 2px;
+            background: var(--gradient);
+            border-radius: var(--rounded-full);
+        }
+
+        .footer-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: var(--space-2);
+        }
+
+        .footer-links a {
+            color: var(--gray-400);
+            text-decoration: none;
+            font-size: var(--text-sm);
+            transition: color 0.2s ease;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .compliance-bar {
+            background: var(--gray-800);
+            border: 1px solid var(--gray-700);
+            border-radius: var(--rounded-lg);
+            padding: var(--space-4);
+            text-align: center;
+            font-size: var(--text-sm);
+            color: var(--gray-400);
+            margin: var(--space-6) 0;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: var(--space-6);
+            border-top: 1px solid var(--gray-800);
+            color: var(--gray-500);
+            font-size: var(--text-sm);
+        }
+
+        /* Utility Classes */
+        .disclaimer {
+            background: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            border-left: 4px solid var(--accent-orange);
+            border-radius: var(--rounded-lg);
+            padding: var(--space-3);
+            font-size: var(--text-sm);
+            color: var(--gray-600);
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-2);
+            margin-top: var(--space-3);
+        }
+
+        .disclaimer i {
+            color: var(--accent-orange);
+            margin-top: var(--space-1);
+            flex-shrink: 0;
+        }
+
+        .report-btn {
+            background: none;
+            border: none;
+            color: var(--gray-400);
+            font-size: var(--text-xs);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: var(--space-1);
+            margin-top: var(--space-3);
+            transition: color 0.2s ease;
+        }
+
+        .report-btn:hover {
+            color: var(--gray-600);
+        }
+
+        .citation {
+            font-size: var(--text-xs);
+            color: var(--gray-500);
+            font-style: italic;
+            margin-top: var(--space-2);
+            padding-top: var(--space-2);
+            border-top: 1px solid var(--gray-100);
+        }
+
+        /* Animations */
+        @keyframes pulse-slow {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 0.9;
+            }
+            50% {
+                transform: scale(1.05);
+                opacity: 1;
+            }
+        }
+
+        /* Desktop Responsive Breakpoints */
+        @media (min-width: 640px) {
+            .container {
+                padding-left: var(--space-6);
+                padding-right: var(--space-6);
+            }
+            
+            .hero-btns {
+                flex-direction: row;
+                justify-content: center;
+            }
+            
+            .btn {
+                width: auto;
+                min-width: 200px;
+            }
+            
+            .features-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: var(--space-8);
+            }
+            
+            .nft-grid {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: var(--space-8);
+            }
+        }
+
+        @media (min-width: 768px) {
+            .mobile-menu-toggle {
+                display: none;
+            }
+            
+            .nav-links {
+                display: flex;
+                align-items: center;
+                gap: var(--space-8);
+            }
+            
+            .nav-links a {
+                color: var(--gray-600);
+                text-decoration: none;
+                font-weight: 500;
+                font-size: var(--text-sm);
+                transition: color 0.2s ease-in-out;
+                position: relative;
+                padding: var(--space-2) 0;
+            }
+            
+            .nav-links a:hover {
+                color: var(--gray-900);
+            }
+            
+            .nav-links a::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 0;
+                height: 2px;
+                background: var(--gradient);
+                transition: width 0.2s ease-in-out;
+                border-radius: var(--rounded-full);
+            }
+            
+            .nav-links a:hover::after {
+                width: 100%;
+            }
+            
+            .hero {
+                padding: var(--space-20) 0;
+                text-align: left;
+            }
+            
+            .hero-content {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: var(--space-16);
+                align-items: center;
+            }
+            
+            .hero h1 {
+                font-size: var(--text-5xl);
+            }
+            
+            .hero p {
+                font-size: var(--text-xl);
+                max-width: 32rem;
+            }
+            
+            .hero-btns {
+                flex-direction: row;
+                justify-content: flex-start;
+            }
+            
+            .brain-icon {
+                width: 18rem;
+                height: 18rem;
+                margin: 0;
+            }
+            
+            .brain-icon i {
+                font-size: 5rem;
+            }
+            
+            .demo-container {
+                grid-template-columns: 1fr 1fr;
+                gap: var(--space-12);
+            }
+            
+            .demo-messages {
+                height: 24rem;
+                padding: var(--space-6);
+            }
+            
+            .footer-grid {
+                grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+                gap: var(--space-12);
+                text-align: left;
+            }
+            
+            .footer-col h3::after {
+                left: 0;
+                transform: none;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .section {
+                padding: var(--space-24) 0;
+            }
+            
+            .section-title {
+                margin-bottom: var(--space-16);
+            }
+            
+            .section-title p {
+                max-width: 42rem;
+            }
+        }
+
+        /* Touch-friendly improvements for mobile */
+        @media (max-width: 767px) {
+            .btn, .nft-btn, .wallet-btn {
+                min-height: 44px; /* iOS recommended touch target */
+            }
+            
+            .demo-input input, .demo-input button {
+                min-height: 44px;
+            }
+            
+            .mobile-nav a {
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+            }
+            
+            /* Improve text readability on mobile */
+            .hero p, .section-title p, .feature-card p {
+                font-size: var(--text-base);
+                line-height: 1.7;
+            }
+            
+            /* Better spacing for mobile */
+            .feature-card, .nft-card {
+                padding: var(--space-4);
+            }
+            
+            .nft-header {
+                padding: var(--space-3);
+            }
+            
+            .nft-body {
+                padding: var(--space-3);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <span>StudyPrep AI</span>
+                </div>
+                <nav class="nav-links">
+                    <a href="#">Home</a>
+                    <a href="#">Subjects</a>
+                    <a href="#">NFT Marketplace</a>
+                    <a href="#">How It Works</a>
+                    <a href="#">For Tutors</a>
+                </nav>
+                <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <button class="wallet-btn">
+                    <i class="fas fa-wallet"></i>
+                    Connect
+                </button>
+            </div>
+        </div>
+        <nav class="mobile-nav" id="mobileNav">
+            <a href="#">Home</a>
+            <a href="#">Subjects</a>
+            <a href="#">NFT Marketplace</a>
+            <a href="#">How It Works</a>
+            <a href="#">For Tutors</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>AI-Powered Exam Prep, Expert-Verified</h1>
+                    <p>NFT-access tutoring with hybrid AI/human verification. Get personalized help without the $100/hour fees.</p>
+                    <div class="hero-btns">
+                        <a href="#" class="btn btn-primary">
+                            <i class="fas fa-graduation-cap"></i>
+                            Try Free Question
+                        </a>
+                        <a href="#" class="btn btn-secondary">
+                            <i class="fas fa-coins"></i>
+                            Explore NFTs
+                        </a>
+                    </div>
+                    <div class="compliance-badge">
+                        <i class="fas fa-shield-alt"></i>
+                        GDPR/COPPA Compliant • No Personal Data Collected
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="brain-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Hybrid Verification System</h2>
+                <p>Our unique approach combines AI efficiency with human expertise for trustworthy learning</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>AI-Powered Answers</h3>
+                    <p>GPT-4 and Llama 3 provide instant explanations for your questions across all subjects.</p>
+                    <div class="disclaimer">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <span>AI-generated explanation. Verify with textbook or teacher.</span>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <h3>Expert Verification</h3>
+                    <p>High-risk STEM topics are flagged for review by our network of graduate students and tutors.</p>
+                    <div class="nft-verify">
+                        <i class="fas fa-badge-check"></i>
+                        Human-verified solution
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-sync-alt"></i>
+                    </div>
+                    <h3>Continuous Improvement</h3>
+                    <p>User feedback trains our models. Report errors to help us improve accuracy for everyone.</p>
+                    <button class="report-btn">
+                        <i class="fas fa-flag"></i>
+                        Report Error
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NFT Portal -->
+    <section class="section nft-portal">
+        <div class="container">
+            <div class="section-title">
+                <h2>NFT Access Portal</h2>
+                <p>Unlock premium subjects with our NFT passes - own your learning forever</p>
+            </div>
+            <div class="nft-grid">
+                <div class="nft-card">
+                    <div class="nft-header">
+                        <div class="nft-icon">
+                            <i class="fas fa-calculator"></i>
+                        </div>
+                        <h3>Calculus Mastery</h3>
+                    </div>
+                    <div class="nft-body">
+                        <div class="nft-verify">
+                            <i class="fas fa-badge-check"></i>
+                            Human-Verified Content
+                        </div>
+                        <ul class="nft-features">
+                            <li><i class="fas fa-check"></i> AP Calculus AB/BC</li>
+                            <li><i class="fas fa-check"></i> College-level Calculus</li>
+                            <li><i class="fas fa-check"></i> Step-by-step solutions</li>
+                            <li><i class="fas fa-check"></i> Textbook citations</li>
+                        </ul>
+                        <div class="nft-price">0.01 ETH</div>
+                        <a href="#" class="nft-btn">Mint NFT Pass</a>
+                    </div>
+                </div>
+                <div class="nft-card">
+                    <div class="nft-header" style="background: var(--gradient-2);">
+                        <div class="nft-icon">
+                            <i class="fas fa-dna"></i>
+                        </div>
+                        <h3>AP Biology</h3>
+                    </div>
+                    <div class="nft-body">
+                        <div class="nft-verify">
+                            <i class="fas fa-badge-check"></i>
+                            Human-Verified Content
+                        </div>
+                        <ul class="nft-features">
+                            <li><i class="fas fa-check"></i> Full AP Biology curriculum</li>
+                            <li><i class="fas fa-check"></i> Lab experiment guides</li>
+                            <li><i class="fas fa-check"></i> Practice FRQs</li>
+                            <li><i class="fas fa-check"></i> 3D model explanations</li>
+                        </ul>
+                        <div class="nft-price">0.015 ETH</div>
+                        <a href="#" class="nft-btn">Mint NFT Pass</a>
+                    </div>
+                </div>
+                <div class="nft-card">
+                    <div class="nft-header" style="background: var(--gradient-3);">
+                        <div class="nft-icon">
+                            <i class="fas fa-atom"></i>
+                        </div>
+                        <h3>Physics Bundle</h3>
+                    </div>
+                    <div class="nft-body">
+                        <div class="nft-verify">
+                            <i class="fas fa-badge-check"></i>
+                            Human-Verified Content
+                        </div>
+                        <ul class="nft-features">
+                            <li><i class="fas fa-check"></i> Mechanics & E&M</li>
+                            <li><i class="fas fa-check"></i> 100+ practice problems</li>
+                            <li><i class="fas fa-check"></i> Formula derivations</li>
+                            <li><i class="fas fa-check"></i> Real-world applications</li>
+                        </ul>
+                        <div class="nft-price">0.02 ETH</div>
+                        <a href="#" class="nft-btn">Mint NFT Pass</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo Section -->
+    <section class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Interactive Learning Demo</h2>
+                <p>Experience our AI tutor with built-in verification and citations</p>
+            </div>
+            <div class="demo-container">
+                <div class="demo-interface">
+                    <div class="demo-header">
+                        <i class="fas fa-robot"></i>
+                        <span>StudyPrep AI Tutor</span>
+                    </div>
+                    <div class="demo-messages">
+                        <div class="message user-message">
+                            Can you explain the fundamental theorem of calculus?
+                        </div>
+                        <div class="message ai-message">
+                            The Fundamental Theorem of Calculus connects differentiation and integration. It has two parts:<br><br>
+                            1. If f is continuous on [a,b] and F is an antiderivative of f, then ∫ₐᵇ f(x)dx = F(b) - F(a)<br>
+                            2. If f is continuous on [a,b], then the function F(x) = ∫ₐˣ f(t)dt is continuous on [a,b] and differentiable on (a,b), and F'(x) = f(x)<br><br>
+                            This theorem forms the basis for calculating definite integrals.
+                            <div class="citation">
+                                Source: Stewart's Calculus, 8th Ed. p. 320
+                            </div>
+                            <div class="disclaimer">
+                                <i class="fas fa-exclamation-circle"></i>
+                                <span>AI-generated explanation. Verify with textbook or teacher. This topic has been flagged for human verification.</span>
+                            </div>
+                            <button class="report-btn">
+                                <i class="fas fa-flag"></i>
+                                Report Error
+                            </button>
+                        </div>
+                        <div class="message ai-message">
+                            <div class="nft-verify">
+                                <i class="fas fa-badge-check"></i>
+                                Verified by MIT Mathematics Graduate
+                            </div>
+                            The previous explanation is correct. I'd like to add: The theorem shows that differentiation and integration are inverse operations. This is why we use antiderivatives to compute definite integrals.
+                        </div>
+                    </div>
+                    <div class="demo-input">
+                        <input type="text" placeholder="Ask a question about calculus...">
+                        <button>Send</button>
+                    </div>
+                </div>
+                <div class="demo-info">
+                    <h3>Built with Academic Integrity</h3>
+                    <p>Every response includes textbook citations and verification status indicators. Our system:</p>
+                    <ul class="nft-features">
+                        <li><i class="fas fa-check-circle"></i> Flags STEM topics for human review</li>
+                        <li><i class="fas fa-check-circle"></i> Provides verifiable textbook references</li>
+                        <li><i class="fas fa-check-circle"></i> Shows verification status clearly</li>
+                        <li><i class="fas fa-check-circle"></i> Includes one-click error reporting</li>
+                    </ul>
+                    <div class="compliance-bar">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        Not affiliated with College Board/IBO. For supplemental study only.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3>StudyPrep AI</h3>
+                    <p>The future of exam preparation is here. AI-powered, expert-verified, and accessible through blockchain technology.</p>
+                    <div class="compliance-bar">
+                        <i class="fas fa-lock"></i>
+                        No personal data collected • Wallet-only access
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h3>Legal</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Copyright Compliance</a></li>
+                        <li><a href="#">GDPR Portal</a></li>
+                        <li><a href="#">Academic Integrity Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Resources</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Public Domain Materials</a></li>
+                        <li><a href="#">Open Educational Resources</a></li>
+                        <li><a href="#">Khan Academy Integration</a></li>
+                        <li><a href="#">Become a Verifier</a></li>
+                        <li><a href="#">DAO Contributor Program</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Contact</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Support Center</a></li>
+                        <li><a href="#">Error Reports</a></li>
+                        <li><a href="#">Partnership Inquiries</a></li>
+                        <li><a href="#">Tutor Applications</a></li>
+                        <li><a href="#">University Programs</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="compliance-bar">
+                NFTs have no inherent value. Not accredited by any educational institution. Use of copyrighted materials strictly prohibited. Wallet age verification required for access. For supplemental educational purposes only.
+            </div>
+            <div class="copyright">
+                &copy; 2025 StudyPrep AI. All rights reserved. PUCH.AI Hackathon Project.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            const mobileNav = document.getElementById('mobileNav');
+            const toggle = document.querySelector('.mobile-menu-toggle i');
+            
+            mobileNav.classList.toggle('active');
+            
+            if (mobileNav.classList.contains('active')) {
+                toggle.className = 'fas fa-times';
+            } else {
+                toggle.className = 'fas fa-bars';
+            }
+        }
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.mobile-nav a').forEach(link => {
+            link.addEventListener('click', () => {
+                toggleMobileMenu();
+            });
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            const mobileNav = document.getElementById('mobileNav');
+            const toggle = document.querySelector('.mobile-menu-toggle');
+            
+            if (!mobileNav.contains(e.target) && !toggle.contains(e.target)) {
+                if (mobileNav.classList.contains('active')) {
+                    toggleMobileMenu();
+                }
+            }
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add scroll effect to header
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 20) {
+                header.style.background = 'rgba(255, 255, 255, 0.98)';
+                header.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+            } else {
+                header.style.background = 'rgba(255, 255, 255, 0.95)';
+                header.style.boxShadow = '0 1px 3px rgba(0, 0, 0, 0.1)';
+            }
+        });
+
+        // Interactive demo functionality
+        const demoInput = document.querySelector('.demo-input input');
+        const demoButton = document.querySelector('.demo-input button');
+        const demoMessages = document.querySelector('.demo-messages');
+
+        function addMessage(content, isUser = false) {
+            const message = document.createElement('div');
+            message.className = `message ${isUser ? 'user-message' : 'ai-message'}`;
+            message.innerHTML = content;
+            demoMessages.appendChild(message);
+            demoMessages.scrollTop = demoMessages.scrollHeight;
+        }
+
+        function sendMessage() {
+            const input = demoInput.value.trim();
+            if (!input) return;
+
+            addMessage(input, true);
+            demoInput.value = '';
+
+            // Simulate AI response
+            setTimeout(() => {
+                addMessage(`
+                    Thank you for your question! This is a demo of our AI tutoring system.
+                    <div class="citation">Demo response - Connect wallet for full functionality</div>
+                    <div class="disclaimer">
+                        <i class="fas fa-info-circle"></i>
+                        <span>Demo mode - Full AI responses available with NFT access</span>
+                    </div>
+                `);
+            }, 1000);
+        }
+
+        demoButton.addEventListener('click', sendMessage);
+        demoInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Wallet connection simulation
+        document.querySelector('.wallet-btn').addEventListener('click', () => {
+            const btn = document.querySelector('.wallet-btn');
+            const originalContent = btn.innerHTML;
+            
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Connecting...';
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                btn.innerHTML = '<i class="fas fa-check"></i> Connected';
+                btn.style.background = 'linear-gradient(135deg, #059669, #047857)';
+                
+                setTimeout(() => {
+                    btn.innerHTML = originalContent;
+                    btn.disabled = false;
+                    btn.style.background = '';
+                    alert('Wallet connection demo completed!');
+                }, 2000);
+            }, 1500);
+        });
+
+        // NFT button interactions
+        document.querySelectorAll('.nft-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const originalContent = btn.innerHTML;
+                
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+                btn.style.pointerEvents = 'none';
+                
+                setTimeout(() => {
+                    btn.innerHTML = '<i class="fas fa-check"></i> Demo Complete';
+                    btn.style.background = 'linear-gradient(135deg, #059669, #047857)';
+                    
+                    setTimeout(() => {
+                        btn.innerHTML = originalContent;
+                        btn.style.pointerEvents = 'auto';
+                        btn.style.background = '';
+                        alert('NFT minting demo completed!');
+                    }, 2000);
+                }, 1500);
+            });
+        });
+
+        // Add fade-in animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements for animation
+        document.querySelectorAll('.feature-card, .nft-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+
+        // Touch-friendly interactions for mobile
+        if ('ontouchstart' in window) {
+            document.querySelectorAll('.btn, .nft-btn, .wallet-btn').forEach(btn => {
+                btn.addEventListener('touchstart', function() {
+                    this.style.transform = 'scale(0.98)';
+                });
+                
+                btn.addEventListener('touchend', function() {
+                    this.style.transform = '';
+                });
+            });
+        }
+
+        console.log('StudyPrep AI - Mobile-optimized website loaded successfully!');
+    </script>
+</body>
+</html>
